@@ -1,9 +1,51 @@
-const {Client, IntentsBitField, GatewayIntentBits} = require("discord.js")
+const {Client, IntentsBitField, GatewayIntentBits, EmbedBuilder} = require("discord.js")
 require("dotenv").config();
+const fs = require("fs")
+const path= require("path")
 const client = new Client({
     intents: [ GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers ]
 })
+const {register} = require("./register")
 client.once("ready", async() => {
     console.log(`\nDiscord Bot is ready and logged in as ${client.user.tag}\n`)
+    //await registerCommands(client, true, "server_id") //Guild only Mode
+    await register(client) // Register Cmds globally
+})
+client.commands = new Map();
+function loadCommands(dir, map) {
+    fs.readdirSync(dir).forEach(file => {
+        const fullPath = path.join(dir, file)
+        if (fs.statSync(fullPath).isDirectory()) {
+            loadCommands(fullPath, map);
+            return;
+        }
+        if (!file.endsWith(".js") && !file.endsWith(".ts")) return;
+        const commandName = path.parse(file).name;
+        const command = require(path.resolve(fullPath));
+        map.set(commandName, command);
+        console.log(`Loaded: ${fullPath}`);
+    });
+}
+function defaultbase() {
+    const embed= new EmbedBuilder().setColor("Random").setFooter({text: "Default Base", iconURL: "https://i.pinimg.com/474x/8a/c3/f9/8ac3f9735abb4b0197ee838735715833.jpg?nii=t"})
+    return embed;
+}
+let Custombase = null
+try {
+    const {base}= require("./base") || null
+    Custombase = base
+} catch(err) {}
+client.base = Custombase || defaultbase
+loadCommands("./slashcmds", client.commands);
+async function SlashCmds(client, interaction) {
+    const name= interaction.commandName;
+    const command = client.commands.get(name)
+    if (!command) return interaction.reply("Command not Found in the `slashcmds` Folder.")
+    await command(client, interaction)
+}
+client.on("interactionCreate", async (interaction) => {
+    if (interaction.isChatInputCommand) {
+        await SlashCmds(client, interaction)
+    } 
 })
 client.login(process.env.Token)
