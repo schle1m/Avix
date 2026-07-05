@@ -11,3 +11,5 @@
 ### - Open Command Line in the Folder and run `node index.js`.
 ### - If you did all Steps right the Bot should come online and the Console should show it is logged in.
 
+## How to Customize the Bot:
+### - To Edit the Embeds for almost all Functions of the Bot go to the `base.example.js` file and customize the EmbedBuilder then rename it to `base.js` and save.

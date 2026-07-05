@@ -3,7 +3,7 @@ require("dotenv").config();
 const fs = require("fs")
 const path= require("path")
 const client = new Client({
-    intents: [ GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers ]
+    intents: [ GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.Guilds ]
 })
 const {register} = require("./register")
 client.once("ready", async() => {
@@ -27,7 +27,7 @@ function loadCommands(dir, map) {
     });
 }
 function defaultbase() {
-    const embed= new EmbedBuilder().setColor("Random").setFooter({text: "Default Base", iconURL: "https://i.pinimg.com/474x/8a/c3/f9/8ac3f9735abb4b0197ee838735715833.jpg?nii=t"})
+    const embed= new EmbedBuilder().setColor("Random").setFooter({text: "Bot", iconURL: "https://i.pinimg.com/474x/8a/c3/f9/8ac3f9735abb4b0197ee838735715833.jpg?nii=t"})
     return embed;
 }
 let Custombase = null
@@ -35,7 +35,7 @@ try {
     const {base}= require("./base") || null
     Custombase = base
 } catch(err) {}
-client.base = Custombase || defaultbase
+client.Base = Custombase || defaultbase
 loadCommands("./slashcmds", client.commands);
 async function SlashCmds(client, interaction) {
     const name= interaction.commandName;
