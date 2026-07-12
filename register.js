@@ -1,7 +1,9 @@
 const {SlashCommandBuilder, REST, Routes } = require("discord.js")
 const cmds = [
     new SlashCommandBuilder().setName("ping").setDescription("ping the Bot to check if its online as well as some stats"),
-    new SlashCommandBuilder().setName("server-info").setDescription("get info on the current Server")
+    new SlashCommandBuilder().setName("server-info").setDescription("get info on the current Server"),
+    new SlashCommandBuilder().setName("ban").setDescription("Ban someone from the Server").addUserOption(o=>  o.setName("target").setDescription("Member to Ban").setRequired(true)).addStringOption(o=>o.setName("reason").setDescription("why did you ban the User"))
+    .addBooleanOption(opt => opt.setName("send-dm").setDescription("if the Member should be dmed about the Ban. Off by default"))
 ]
 async function register(client, guildOnly = false, guildId) {
     const rest = new REST({ version: "10" }).setToken(process.env.Token);
