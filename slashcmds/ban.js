@@ -27,7 +27,7 @@ module.exports = async (client, interaction) => {
     }
     await interaction.deferReply()
     try {
-        //await target.ban({reason})
+        await target.ban({reason})
     } catch(err) {
         console.error(`Failed to ban ${target.tag} in ${guild.id}: ${err}`)
         return interaction.editReply("Something went wrong while Banning the User")
