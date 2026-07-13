@@ -1,13 +1,30 @@
-const {Client, IntentsBitField, GatewayIntentBits, EmbedBuilder} = require("discord.js")
+const {Client, IntentsBitField, GatewayIntentBits, EmbedBuilder, WebhookClient, Embed} = require("discord.js")
 require("dotenv").config();
 const fs = require("fs")
 const path= require("path")
 const client = new Client({
     intents: [ GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.Guilds ]
 })
+let Loghook = null
+if (process.env.LogHook) {
+    Loghook = new WebhookClient({url: `${process.env.LogHook}`})
+}
+require("./util/error")(Loghook)
+function defaultbase() {
+    const embed= new EmbedBuilder().setColor("Random").setFooter({text: "Bot", iconURL: "https://i.pinimg.com/474x/8a/c3/f9/8ac3f9735abb4b0197ee838735715833.jpg?nii=t"})
+    return embed;
+}
+let Custombase = null
+try {
+    const {base}= require("./base") || null
+    Custombase = base
+} catch(err) {}
+client.Base = Custombase || defaultbase
 const {register} = require("./register")
 client.once("ready", async() => {
     console.log(`\nDiscord Bot is ready and logged in as ${client.user.tag}\n`)
+    const ready = client.Base().setTitle(`Bot Logged in and Ready as ${client.user.tag}!!`).setColor("DarkGreen").setTimestamp()
+    if (Loghook) await Loghook.send({embeds: [ready]})
     //await registerCommands(client, true, "server_id") //Guild only Mode
     await register(client) // Register Cmds globally
 })
@@ -26,16 +43,6 @@ function loadCommands(dir, map) {
         console.log(`Loaded: ${fullPath}`);
     });
 }
-function defaultbase() {
-    const embed= new EmbedBuilder().setColor("Random").setFooter({text: "Bot", iconURL: "https://i.pinimg.com/474x/8a/c3/f9/8ac3f9735abb4b0197ee838735715833.jpg?nii=t"})
-    return embed;
-}
-let Custombase = null
-try {
-    const {base}= require("./base") || null
-    Custombase = base
-} catch(err) {}
-client.Base = Custombase || defaultbase
 loadCommands("./slashcmds", client.commands);
 async function SlashCmds(client, interaction) {
     const name= interaction.commandName;
