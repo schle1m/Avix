@@ -2,6 +2,8 @@ const {SlashCommandBuilder, REST, Routes } = require("discord.js")
 const cmds = [
     new SlashCommandBuilder().setName("ping").setDescription("ping the Bot to check if its online as well as some stats"),
     new SlashCommandBuilder().setName("server-info").setDescription("get info on the current Server"),
+    new SlashCommandBuilder().setName("test").setDescription("test events").addSubcommand(s=> s.setName("join").setDescription("emit the Join event for testing your configs etc"))
+    .addSubcommand(sub => sub.setName("leave").setDescription("emit a leave event to test leave message etc")),
     new SlashCommandBuilder().setName("user-info").setDescription("get some information on a Member").addUserOption(op=> op.setName("user").setDescription("who to get info on (you by default)").setRequired(true)),
     new SlashCommandBuilder().setName("ban").setDescription("Ban someone from the Server").addUserOption(o=>  o.setName("target").setDescription("Member to Ban").setRequired(true)).addStringOption(o=>o.setName("reason").setDescription("why did you ban the User"))
     .addBooleanOption(opt => opt.setName("send-dm").setDescription("if the Member should be dmed about the Ban. Off by default"))
