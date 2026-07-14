@@ -1,8 +1,15 @@
 const { EmbedBuilder, codeBlock } = require("discord.js");
 const util = require("util");
+/*
+    THIS IS ONLY USED FOR TESTING, DISABLING THIS WILL CAUSE LOGGING TO BE Off
+*/
+const debug = true //keep as false
+
 //Whole webhook handling for errs
 module.exports = function ErrorHandler(webhook) {
     async function sendError(type, error) {
+        console.error(`New ${type}\n ${error}`)
+        if (debug) return;
         try {
             const embed = new EmbedBuilder().setColor("DarkRed").setTitle(`New ${type}`).setTimestamp()
             if (error instanceof Error) {
