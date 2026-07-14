@@ -3,7 +3,7 @@ const util = require("util");
 /*
     THIS IS ONLY USED FOR TESTING, DISABLING THIS WILL CAUSE LOGGING TO BE Off
 */
-const debug = true //keep as false
+const debug = false //keep as false
 
 //Whole webhook handling for errs
 module.exports = function ErrorHandler(webhook) {

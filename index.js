@@ -55,4 +55,14 @@ client.on("interactionCreate", async (interaction) => {
         await SlashCmds(client, interaction)
     } 
 })
+client.on("guildMemberAdd", async (member) => {
+    try {
+        await require("./handlers/GuildMemberAd")(member, client) 
+    } catch(err) {if (!err.message.startsWith("ENOENT")) console.error(`GuildMemberAdd Err: ${err}`)}
+})
+client.on("guildMemberRemove", async (member) => {
+    try {
+        await require("./handlers/GuildMemberRm")(member, client) 
+    } catch(err) { if (!err.message.startsWith("ENOENT")) console.error(`GuildMemberRemove Err: ${err}`)}
+})
 client.login(process.env.Token)
