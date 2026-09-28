@@ -1,4 +1,4 @@
-import {GuildMember } from "discord.js";
+import type {GuildMember } from "discord.js";
 import type {Command} from "../types"
 function parseDuration(str: string | null) {
   if (!str) return null;
