@@ -1,8 +1,5 @@
-const {} = require("discord.js")
 import {GuildMember } from "discord.js";
 import type {Command} from "../types"
-import { format } from "path";
-import { send } from "process";
 function parseDuration(str: string | null) {
   if (!str) return null;
   const match = str.trim().match(/^(\d+)(m|h|d)$/i);
