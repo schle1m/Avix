@@ -8,8 +8,9 @@
 ### - After go to the `Bot` Tab and Turn on the `Message Content` and `Guild Members` Intent.
 ### - In the Same `Bot` Tab Copy your Token or Reset the Token to View it and Paste it behind the `Token=` in the `.env.example` File.
 ### - Rename the `.env.example` File to `.env`.
-### - Open Command Line in the Folder and run `node index.js`.
+### - Open Command Line in the Folder and run `npm start`.
 ### - If you did all Steps right the Bot should come online and the Console should show it is logged in.
 
 ## How to Customize the Bot:
 ### - To Edit the Embeds for almost all Functions of the Bot go to the `base.example.js` file and customize the EmbedBuilder then rename it to `base.js` and save.
+### - To Create edit Configs for Features rename the `configs.example` to `configs` and fill out the files.

@@ -1,13 +1,14 @@
 const { EmbedBuilder, codeBlock } = require("discord.js");
 const util = require("util");
+import type {WebhookClient} from "discord.js"
 /*
     THIS IS ONLY USED FOR TESTING, DISABLING THIS WILL CAUSE LOGGING TO BE Off
 */
-const debug = false //keep as false
+const debug = process.env.Debug === "true";
 
 //Whole webhook handling for errs
-module.exports = function ErrorHandler(webhook) {
-    async function sendError(type, error) {
+module.exports = function ErrorHandler(webhook: WebhookClient | null) {
+    async function sendError(type: string, error: unknown) {
         console.error(`New ${type}\n ${error}`)
         if (debug) return;
         try {
