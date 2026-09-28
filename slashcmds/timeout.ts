@@ -73,7 +73,7 @@ module.exports = {
             return interaction.reply({ embeds: [embed], flags: 1 << 6 });
         }
         await interaction.deferReply()
-        await target.timeout(duaMs, reason);
+        await target.timeout(duaMs, reason).catch(err => {})
         let dmSucces = true;
         if (sendDM) {
             const dmEmd = client.Base().setTitle(`Timed out in ${interaction.guild.name}!`).setColor("DarkRed")
